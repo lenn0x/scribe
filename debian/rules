@@ -16,7 +16,7 @@ DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
 
-CFLAGS=-Wall -g 
+CFLAGS=-Wall -g
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0
@@ -24,7 +24,7 @@ else
 	CFLAGS += -O2
 endif
 
-config.status: 
+config.status:
 	dh_testdir
 	# Add here commands to configure the package.
 	$(CURDIR)/bootstrap.sh
@@ -44,21 +44,20 @@ build-stamp:  config.status
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f build-stamp 
+	rm -f build-stamp
 
 	# Add here commands to clean up after the build process.
-	dh_clean 
+	dh_clean
 
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k 
+	dh_clean -k
 	dh_installdirs
 
 	# Add here commands to install the package into debian/scribe.
 	$(MAKE) DESTDIR=$(CURDIR)/debian/scribe install
 	cp $(CURDIR)/examples/scribe_cat $(CURDIR)/debian/scribe/usr/bin
-	cp $(CURDIR)/examples/scribe_apache $(CURDIR)/debian/scribe/usr/bin
 	cp $(CURDIR)/examples/scribe_ctrl $(CURDIR)/debian/scribe/usr/bin
 	mkdir -p $(CURDIR)/debian/scribe/etc/scribe
 	cp $(CURDIR)/debian/scribe.conf $(CURDIR)/debian/scribe/etc/scribe/scribe.conf
@@ -71,12 +70,12 @@ binary-indep: build install
 binary-arch: build install
 	dh_testdir
 	dh_testroot
-	dh_installchangelogs 
+	dh_installchangelogs
 	dh_installdocs
 	dh_installexamples
 #	dh_install
 #	dh_installmenu
-#	dh_installdebconf	
+#	dh_installdebconf
 #	dh_installlogrotate
 #	dh_installemacsen
 #	dh_installpam
@@ -99,4 +98,4 @@ binary-arch: build install
 	dh_builddeb
 
 binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install 
+.PHONY: build clean binary-indep binary-arch binary install
